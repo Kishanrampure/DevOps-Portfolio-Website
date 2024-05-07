@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: petclinic-load-service
+  name: portfolio-load-service
 spec:
   ports:
-    - port: 8080 
-      targetPort: 8080
+    - port: 80
+      targetPort: 80
   selector:
     type: backend
-    app: petclinic  
+    app: portfolio  
   type: LoadBalancer
