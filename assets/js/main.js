@@ -248,28 +248,15 @@ var WebsiterUrl = () => {
 
 // Onclick Url's For The Link {Projects}
 
-var SOSTechSevices = () =>{
-  window.open("https://sostechservices.in")
+var PetClinic = () =>{
+  window.open("https://github.com/Kishanrampure/DevOps-Petclinic-Project.git")
 }
 
-var News = () =>{
-  window.open("https://news.codeinblogs.co/")
+var BoardGame = () =>{
+  window.open("https://github.com/Kishanrampure/DevOps-Boardgame-Project.git")
 }
-var Coaching = () =>{
-  window.open("https://Sumitguptaclasses.com")
-}
-
-var LawProGPT = () => {
-  window.open("https://lawprogpt.com")
-}
-
-var DSCLang = () =>{
-  window.open("https://dsclang.com")
-
-}
-
-var CodeINBlogs = () =>{
-  window.open("https://codeinblogs.co")
+var Terraform = () =>{
+  window.open("https://github.com/Kishanrampure/DevOps-Terraform-EKS-Project.git")
 }
 
 var WhatsAppContact = () =>{
