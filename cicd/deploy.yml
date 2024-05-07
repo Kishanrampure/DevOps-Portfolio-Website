@@ -20,6 +20,6 @@ spec:
     spec:
       containers:
         - name: nodecontainer
-          image: kishanrampure/portfolio:v7052024
+          image: kishanrampure/portfolio:v08052024
           ports:
             - containerPort: 80

@@ -44,19 +44,19 @@ pipeline {
         }
          stage('Docker Build') {
           steps {
-                sh 'docker build -t kishanrampure/portfolio:v7052024 .'
+                sh 'docker build -t kishanrampure/portfolio:v08052024 .'
             }
         }
         stage('Docker Image Test'){
         steps {
-                sh 'trivy image kishanrampure/portfolio:v7052024'
+                sh 'trivy image kishanrampure/portfolio:v08052024'
             }
         }
         stage('Push image to dockerhub') {
         steps {
           withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
              sh 'docker login -u $USERNAME -p $PASSWORD'
-             sh 'docker push kishanrampure/portfolio:v7052024'
+             sh 'docker push kishanrampure/portfolio:v08052024'
           }
         }
       }
