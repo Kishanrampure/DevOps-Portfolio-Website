@@ -46,7 +46,7 @@ pipeline {
           steps {
                 sh 'chmod +x mvnw'
                 sh 'chmod +x ./mvnw'
-                sh 'docker build -f cicd/Dockerfile -t kishanrampure/portfolio:v07052024 .'
+                sh 'docker build -t kishanrampure/portfolio:v07052024 .'
             }
         }
         stage('Docker Image Test'){
