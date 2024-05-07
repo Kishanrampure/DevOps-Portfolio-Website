@@ -15,7 +15,7 @@ pipeline {
         }
         stage('SCM Fetch From sc-staging') {
         steps{
-            git branch: 'sc-staging', url: 'https://github.com/Kishanrampure/DevOps-Portfolio-Project.git'
+            git branch: 'sc-staging', url: 'https://github.com/Kishanrampure/DevOps-Portfolio-Website.git'
             }
         }
         stage("OWASP Dependency Check"){
@@ -42,37 +42,6 @@ pipeline {
                 }
             }
         }
-        stage('Git Push to deployment') {
-	  environment {
-                commitmsg = "'CodeChange'"
-            }
-        steps {
-	       script{
-                   withCredentials([
-                    gitUsernamePassword(credentialsId: 'mygitid', gitToolName: 'Default')
-                    ] ) {
-                    sh '''
-                    git add .
-		            git remote -v
-                    git status
-		            git commit -a -m ${commitmsg}
-                    git branch -M deployment
-                    git push -u origin deployment --force
-                    '''
-                  } 
-	       }
-            }
-        }
-        stage('SCM Fetch From deployment') {
-        steps{
-            git branch: 'deployment', url: 'https://github.com/Kishanrampure/DevOps-Portfolio-Project.git'
-            }
-        }
-        stage('Maven Install'){
-        steps{
-              sh "mvn clean install"
-             }
-        }
          stage('Docker Build') {
           steps {
                 sh 'chmod +x mvnw'
@@ -83,11 +52,6 @@ pipeline {
         stage('Docker Image Test'){
         steps {
                 sh 'trivy image kishanrampure/portfolio:v07052024'
-            }
-        }
-        stage('Trivy FS Check CD') {
-        steps {
-                sh "trivy fs ."
             }
         }
         stage('Push image to dockerhub') {
