@@ -44,8 +44,6 @@ pipeline {
         }
          stage('Docker Build') {
           steps {
-                sh 'chmod +x mvnw'
-                sh 'chmod +x ./mvnw'
                 sh 'docker build -t kishanrampure/portfolio:v07052024 .'
             }
         }
