@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  portfoliodeployment
+  labels:
+    type: backend
+    app: portfolio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: backend
+      app: portfolio
+  template:
+    metadata:
+      name: portfoliopod
+      labels:
+        type: backend
+        app: portfolio
+    spec:
+      containers:
+        - name: nodecontainer
+          image: kishanrampure/portfolio:v08052024
+          ports:
+            - containerPort: 80

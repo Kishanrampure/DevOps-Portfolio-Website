@@ -1,0 +1,98 @@
+pipeline {
+    agent any
+ tools {
+        maven 'M3'
+        jdk 'jdk'
+    }
+    options {
+        skipStagesAfterUnstable()
+    }
+    stages {
+        stage('Git Init') {
+        steps{
+            sh 'git init'
+            }
+        }
+        stage('SCM Fetch From sc-staging') {
+        steps{
+            git branch: 'sc-staging', url: 'https://github.com/Kishanrampure/DevOps-Portfolio-Website.git'
+            }
+        }
+        stage("OWASP Dependency Check"){
+        steps{
+                dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'OWASP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.html'
+            }
+        }
+        stage('Trivy FS Check CI') {
+        steps {
+                sh "trivy fs ."
+            }
+        }
+        stage('SonarQube Analysis') {
+            environment {
+             SCANNER_HOME = tool 'sonar-scanner'
+          }
+        steps{
+                withSonarQubeEnv('sonarserver') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Portfolio \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=Portfolio '''
+
+                }
+            }
+        }
+         stage('Docker Build') {
+          steps {
+<<<<<<< HEAD
+                sh 'docker build -t kishanrampure/portfolio:v20052024 .'
+=======
+                sh 'docker build -t kishanrampure/portfolio:v08052024 .'
+>>>>>>> main
+            }
+        }
+        stage('Docker Image Test'){
+        steps {
+<<<<<<< HEAD
+                sh 'trivy image kishanrampure/portfolio:v20052024'
+=======
+                sh 'trivy image kishanrampure/portfolio:v08052024'
+>>>>>>> main
+            }
+        }
+        stage('Push image to dockerhub') {
+        steps {
+          withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+             sh 'docker login -u $USERNAME -p $PASSWORD'
+<<<<<<< HEAD
+             sh 'docker push kishanrampure/portfolio:v20052024'
+=======
+             sh 'docker push kishanrampure/portfolio:v08052024'
+>>>>>>> main
+          }
+        }
+      }
+        stage('Git Push to main') {
+	  environment {
+                commitmsg = "'codeChanges'"
+            }
+        steps {
+	       script{
+                   withCredentials([
+                    gitUsernamePassword(credentialsId: 'mygitid', gitToolName: 'Default')
+                    ] ) {
+                    sh '''
+                    git add .
+                    git branch -M main
+		            git remote -v
+                    git status
+		            git commit -a -m ${commitmsg}
+                    git push -u origin main --force
+                    '''
+            }
+        }
+    } 
+}
+
+    } 
+}
